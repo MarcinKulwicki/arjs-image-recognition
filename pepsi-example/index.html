@@ -25,28 +25,66 @@
 <!-- rawgithack development URL -->
 <script src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js'></script>
 
+
 <body style='margin : 0px; overflow: hidden;'>
-   <!-- minimal loader shown until image descriptors are loaded -->
+
+  
+  <!-- minimal loader shown until image descriptors are loaded -->
   <div class="arjs-loader">
     <div>Loading, please wait...</div>
   </div>
-    <a-scene
-        vr-mode-ui='enabled: false;'
-        renderer="logarithmicDepthBuffer: true;"
-        embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'>
+  <a-scene
+      vr-mode-ui='enabled: false;'
+      renderer="logarithmicDepthBuffer: true;"
+      embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'>
 
-        <!-- use rawgithack to retrieve the correct url for nft marker (see 'pinball' below) -->
-        <a-nft
-            type='nft' url='pepsi-example/pepsi'
-            smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5'>
-            <a-entity
-                gltf-model='CesiumMan.gltf'
-                scale="100 100 100"
-				        position="150 450 0"
-				        animation-mixer
-                >
-            </a-entity>
-        </a-nft>
-		<a-entity camera></a-entity>
-    </a-scene>
+      <div id="core">
+
+      </div>
+      <!-- use rawgithack to retrieve the correct url for nft marker (see 'pinball' below) -->
+      <a-nft
+          type='nft' url='pepsi-example/pepsi'
+          smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5'>
+          <a-entity
+              gltf-model='CesiumMan.gltf'
+              scale="100 100 100"
+              animation-mixer
+              >
+          </a-entity>
+      </a-nft>
+  <a-entity camera></a-entity>
+  </a-scene>
 </body>
+
+<script>
+  var sceneEl = document.querySelector('a-scene');
+  var entity = sceneEl.querySelector('a-entity');
+
+  var firstVertical = true;
+
+  if(screen.orientation.angle != 0){
+    firstVertical = false;
+  }
+
+  start();
+
+  function start() {
+    // For first setup 
+    entity.setAttribute('position', { x: screen.width / 2, y: 0, z: -(screen.height / 2) });
+  }
+
+  screen.orientation.addEventListener("change", function(e) {
+
+    //First Vertical
+    if(screen.orientation.angle != 0 && firstVertical){
+
+      entity.setAttribute('position', { x: 0, y: 0, z: -(screen.height / 2) });
+    }
+    //First Horizontal
+    if(screen.orientation.angle == 0 && !firstVertical){
+
+      entity.setAttribute('position', { x: 1.33 * screen.width, y: 0, z: -(screen.height / 2) });
+    }
+  }, false);
+  
+</script>

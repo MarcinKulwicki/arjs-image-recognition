@@ -39,3 +39,28 @@ You can use more than only 3d Object. For example:
 https://aframe.io/docs/1.0.0/components/text.html
 
 https://aframe.io/docs/1.0.0/primitives/a-image.html
+
+Also in different mobiles phone with different screen size and orientation you can have problems to center model on photo. You can fix it adding js script ( src: https://aframe.io/docs/1.0.0/core/entity.html )
+```
+var sceneEl = document.querySelector('a-scene');
+var entity = sceneEl.querySelector('a-entity');
+
+start();
+
+function start() {
+    entity.setAttribute('position', { x: screen.width / 2, y: 0, z: -(screen.height / 2) });
+}
+```
+It's working when you start in Horizontal or in Vertical Mode and stay. When you rotate phone you must change position attribute.
+ ```
+ screen.orientation.addEventListener("change", function(e) {
+
+    //code
+ }, false);
+ ```
+ I dont know why after change i must use multiplers to relocate object to center for example.
+ ```
+ entity.setAttribute('position', { x: 0, y: 0, z: -(screen.height / 2) });
+ 
+ entity.setAttribute('position', { x: 1.33 * screen.width, y: 0, z: -(screen.height / 2) });
+ ```
